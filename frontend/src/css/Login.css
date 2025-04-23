@@ -1,0 +1,231 @@
+#root {
+  width: 100%;
+}
+
+.login-container {
+  margin: 0 auto;
+  max-width: 410px;
+  padding: 2rem 1.5rem;
+  border-radius: 0.5rem;
+  background: var(--color-white);
+  border: 1.5px solid var(--color-neutral-900);
+}
+
+.login-container .form-title {
+  text-align: center;
+  font-size: 1.37rem;
+  font-weight: 600;
+  margin-bottom: 1.87rem;
+}
+
+.login-container .social-login {
+  display: flex;
+  gap: 1.31rem;
+}
+
+.social-login .social-button {
+  display: flex;
+  gap: 0.81rem;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.75rem 0;
+  border-radius: 0.31rem;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-900);
+  transition: 0.3s ease;
+}
+
+.social-login .social-button:hover {
+  background: var(--color-neutral-200);
+}
+
+.social-login .social-button .social-icon {
+  width: 23px;
+}
+
+.login-container .separator {
+  position: relative;
+  margin: 1.5rem 0;
+  text-align: center;
+  background: var(--color-white);
+}
+
+.login-container .separator span {
+  z-index: 1;
+  font-weight: 500;
+  color: var(--color-neutral-600);
+  position: relative;
+  background: var(--color-white);
+  font-size: 1.06rem;
+  padding: 0 0.9rem;
+}
+
+.login-container .separator::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  width: 100%;
+  background: var(--color-neutral-300);
+}
+
+.login-form .input-wrapper {
+  height: 54px;
+  width: 100%;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.login-form .input-field {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 1.06rem;
+  border-radius: 0.31rem;
+  border: 1px solid var(--color-neutral-300);
+  padding: 0px 1.25rem 0 3.12rem;
+  transition: 0.2s ease;
+}
+
+.login-form .input-field:focus {
+  border-color: var(--color-neutral-600);
+}
+
+.login-form .input-field::placeholder {
+  color: var(--color-neutral-400);
+}
+
+.login-form .input-wrapper i {
+  position: absolute;
+  top: 50%;
+  height: 100%;
+  display: flex;
+  color: var(--color-neutral-400);
+  align-items: center;
+  transform: translateY(-50%);
+  transition: 0.2s ease;
+}
+
+.login-form .input-wrapper i:not(.eye-icon) {
+  left: 0.93rem;
+  pointer-events: none;
+}
+
+.login-form .input-field:focus~i:not(.eye-icon) {
+  color: var(--color-neutral-600);
+}
+
+.login-form .input-wrapper i.eye-icon {
+  display: none;
+  right: 0.93rem;
+  color: var(--color-neutral-400);
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+
+.login-form .input-wrapper .input-field:valid~.eye-icon {
+  display: flex;
+}
+
+.login-form .forgot-password-link {
+  display: block;
+  width: fit-content;
+  margin-top: -0.44rem;
+}
+
+.login-form .login-button {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 54px;
+  color: var(--color-white-text);
+  font-size: 1.125rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 0.31rem;
+  background: var(--color-neutral-800);
+  transition: 0.3s ease;
+}
+
+.login-form .login-button:hover {
+  background: var(--color-neutral-900);
+}
+
+.login-container .signup-prompt {
+  text-align: center;
+  font-size: 1.06rem;
+  font-weight: 500;
+  margin: 1.75rem 0 0.31rem;
+}
+
+.login-container a {
+  color: var(--color-neutral-600);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 54px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.input-field {
+  width: 100%;
+  height: 100%;
+  font-size: 1.06rem;
+  padding: 0px 1.25rem 0 3rem;
+  border-radius: 0.31rem;
+  border: 1px solid var(--color-neutral-300);
+  transition: 0.2s ease;
+}
+
+.input-wrapper .icon {
+  position: absolute;
+  left: 0.93rem;
+  font-size: 1.2rem;
+  color: var(--color-neutral-400);
+}
+
+.eye-icon {
+  position: absolute;
+  right: 0.93rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--color-neutral-400);
+}
+
+.success-message {
+  color: green;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media (max-width: 575px) {
+  .login-page {
+    background-color: white; /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh; /* Ensure the background covers the entire viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .login-container {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}

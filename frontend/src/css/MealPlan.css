@@ -1,0 +1,174 @@
+.mp-container {
+    margin: 0;
+    padding: 0;
+}
+
+.meal-plan-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding:  2rem;
+}
+
+.meal-plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 1.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1rem;
+}
+
+.meal-plan-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #222;
+}
+
+.week-navigation {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-button {
+    background-color: #ffffff;
+    border: 1px solid #d0d0d0;
+    color: #000000;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #000000;
+    color: white;
+}
+
+.meal-plan-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.meal-plan-table thead {
+    background-color: #f8f8f8;
+}
+
+.meal-plan-table th,
+.meal-plan-table td {
+    border: 1px solid #e0e0e0;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.meal-plan-table th {
+    font-weight: 600;
+    color: #222;
+}
+
+.day-cell {
+    font-weight: 500;
+}
+
+.recipe-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d0d0d0;
+    background-color: white;
+    border-radius: 4px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M1 4l5 5 5-5z' fill='%23333'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem top 50%;
+    background-size: 12px;
+}
+
+.recipe-select:focus {
+    outline: none;
+    border-color: #888;
+}
+
+/* Base styles remain unchanged... */
+
+@media (max-width: 768px) {
+    .meal-plan-container {
+      padding: 0.75rem;
+    }
+  
+    .meal-plan-header {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+  
+    .meal-plan-title {
+      font-size: 1.25rem;
+      text-align: center;
+    }
+  
+    .week-navigation {
+      width: 100%;
+      justify-content: space-between;
+    }
+  
+    .nav-button {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    }
+  
+    .meal-plan-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    .meal-plan-table table,
+    .meal-plan-table thead,
+    .meal-plan-table tbody,
+    .meal-plan-table th,
+    .meal-plan-table td,
+    .meal-plan-table tr {
+      display: block;
+    }
+  
+    .meal-plan-table thead {
+      display: none; /* hide headers on mobile */
+    }
+  
+    .meal-plan-table tr {
+      margin-bottom: 1rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 1rem;
+      background-color: #ffffff;
+    }
+  
+    .meal-plan-table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border: none;
+    }
+  
+    .meal-plan-table td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      flex-basis: 40%;
+      color: #333;
+    }
+  
+    .recipe-select {
+      width: 55%;
+      font-size: 0.9rem;
+    }
+
+    .mp-container {
+        padding: 0 1rem 1rem 1rem;
+    }
+  }
+  
