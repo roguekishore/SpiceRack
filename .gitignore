@@ -1,0 +1,7 @@
+/logs/
+
+.env
+.env.local
+.env.*.local
+
+/.vscode/

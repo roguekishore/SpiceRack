@@ -1,0 +1,64 @@
+/* ============================================
+   FOOTER - Minimalist Professional
+   ============================================ */
+
+.footer {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-8);
+  padding-top: var(--space-7);
+  border-top: var(--border-width) solid var(--color-border);
+  gap: var(--space-4);
+}
+
+@media screen and (min-width: 768px) {
+  .footer-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.footer-content p {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+
+.footer-content a {
+  color: var(--color-black);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.footer-content a:hover {
+  opacity: 0.7;
+}
+
+.footer-content ul {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  column-gap: var(--space-6);
+  padding: 0;
+  margin: 0;
+}
+
+.footer-content ul li a {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-500);
+  transition: color var(--transition-fast);
+}
+
+.footer-content ul li a:hover {
+  color: var(--color-black);
+  opacity: 1;
+}

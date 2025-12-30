@@ -1,0 +1,281 @@
+/* ============================================
+   INVENTORY - Minimalist Professional
+   ============================================ */
+
+.inventory-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-5) var(--space-6);
+}
+
+.inventory-name {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  margin: 0 0 var(--space-6) 0;
+  padding: 0 0 var(--space-4) 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.inventory-product-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.inventory-heading {
+  margin: 0;
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-black);
+  letter-spacing: var(--tracking-tight);
+}
+
+.product {
+  width: 100%;
+}
+
+/* ============================================
+   PRODUCT GRID
+   ============================================ */
+
+.inventory-container .products-content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+/* ============================================
+   PRODUCT CARD
+   ============================================ */
+
+.inventory-container .product-content {
+  position: relative;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  background-color: var(--color-white);
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.inventory-container .product-content:hover {
+  border-color: var(--color-black);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.inventory-container .product-content-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-3);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+
+.inventory-container .product-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transition: all var(--transition-fast);
+}
+
+.inventory-container .product-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: transform var(--transition-base);
+  border-radius: var(--radius-md);
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+.inventory-container .product-link:hover .product-image {
+  transform: scale(1.05);
+}
+
+.inventory-container .product-info {
+  margin-top: var(--space-2);
+  flex-grow: 1;
+}
+
+.inventory-container .product-info h3 {
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-black);
+}
+
+.inventory-container .product-info p {
+  color: var(--color-neutral-500);
+  font-size: var(--text-xs);
+  margin: 0;
+}
+
+/* ============================================
+   PRICE & QUANTITY
+   ============================================ */
+
+.inventory-container .product-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.inventory-container .product-price h3 {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-neutral-500);
+}
+
+.inventory-container .product-price h3 span {
+  color: var(--color-neutral-500);
+  font-size: var(--text-sm);
+  font-weight: var(--font-normal);
+}
+
+/* ============================================
+   QUANTITY CONTROLS
+   ============================================ */
+
+.inventory-container .product-btns {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.inventory-container .product-btn-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-md);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.inventory-container .product-btn-add svg {
+  fill: white;
+}
+
+.inventory-container .product-btn-add:hover:not(:disabled) {
+  background-color: var(--color-neutral-800);
+}
+
+.inventory-container .product-btn-add:disabled {
+  background-color: var(--color-neutral-300);
+  cursor: not-allowed;
+}
+
+.inventory-container .product-quantity-input {
+  width: 48px;
+  height: 32px;
+  padding: var(--space-1);
+  text-align: center;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  transition: border-color var(--transition-fast);
+}
+
+.inventory-container .product-quantity-input:focus {
+  outline: none;
+  border-color: var(--color-black);
+}
+
+.inventory-container .product-quantity-input::-webkit-outer-spin-button,
+.inventory-container .product-quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inventory-container .product-quantity-input {
+  -moz-appearance: textfield;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1279px) {
+  .inventory-container .products-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .inventory-container .products-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .inventory-container .products-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .inventory-container .product-content {
+    padding: var(--space-3);
+  }
+
+  .inventory-container .product-content-image {
+    padding: var(--space-2);
+  }
+
+  .inventory-container .product-info h3 {
+    font-size: var(--text-sm);
+  }
+
+  .inventory-container .product-info p {
+    font-size: var(--text-xs);
+  }
+
+  .inventory-container .product-btn-add {
+    width: 28px;
+    height: 28px;
+  }
+
+  .inventory-container .product-quantity-input {
+    width: 40px;
+    height: 28px;
+    font-size: var(--text-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .inventory-container .products-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .inventory-container .product-content {
+    padding: var(--space-3);
+  }
+
+  .inventory-container .product-info h3 {
+    font-size: var(--text-xs);
+  }
+
+  .inventory-heading {
+    font-size: var(--text-2xl);
+  }
+}
+

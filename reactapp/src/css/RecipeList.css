@@ -1,0 +1,442 @@
+/* ============================================
+   RECIPE LIST - Minimalist Professional
+   ============================================ */
+
+.recipe-list-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-9) var(--space-5);
+  padding-top: var(--space-10);
+}
+
+.recipe-list-header {
+  text-align: center;
+  margin-bottom: var(--space-7);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.user-recipe-container {
+  display: block;
+  gap: var(--space-4);
+}
+
+.page-title {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  margin: 0 0 var(--space-1) 0;
+  color: var(--color-black);
+  letter-spacing: var(--tracking-tight);
+}
+
+.recipe-count {
+  font-size: var(--text-base);
+  color: var(--color-neutral-500);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.add-recipe-btn {
+  background-color: var(--color-white);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  margin: 0 var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-black);
+  transition: all var(--transition-base);
+  margin-top: var(--space-3);
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+}
+
+.add-recipe-btn:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* ============================================
+   RECIPE GRID
+   ============================================ */
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: var(--space-6);
+}
+
+.recipe-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  border: var(--border-width) solid var(--color-border);
+}
+
+.recipe-card:hover {
+  border-color: var(--color-black);
+  box-shadow: var(--shadow-md);
+}
+
+.recipe-card-header {
+  padding: var(--space-5);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.recipe-item {
+  margin-bottom: var(--space-4);
+}
+
+.recipe-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-3) 0;
+  color: var(--color-black);
+  letter-spacing: var(--tracking-tight);
+}
+
+.recipe-meta {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.prep-time, .ingredients-count {
+  display: flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-500);
+}
+
+.recipes-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: var(--space-2);
+}
+
+.expand-indicator {
+  position: absolute;
+  right: var(--space-5);
+  top: var(--space-5);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-black);
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-100);
+}
+
+.recipe-card-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-slower);
+}
+
+.recipe-card-content.expanded {
+  max-height: 1500px;
+}
+
+.recipe-section {
+  padding: var(--space-5);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.recipe-section:last-child {
+  border-bottom: none;
+}
+
+.section-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-4) 0;
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-border);
+  color: var(--color-black);
+}
+
+.instructions-list {
+  padding-left: var(--space-5);
+  margin: 0;
+}
+
+.instruction-item {
+  margin-bottom: var(--space-3);
+  line-height: var(--leading-relaxed);
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
+}
+
+/* ============================================
+   GROCERIES LIST
+   ============================================ */
+
+.groceries-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.grocery-item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4);
+  background-color: var(--color-neutral-50);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.grocery-item:hover {
+  border-color: var(--color-neutral-400);
+  background-color: var(--color-white);
+}
+
+.grocery-image-container {
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  margin-right: var(--space-4);
+  flex-shrink: 0;
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grocery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+}
+
+.grocery-details {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.grocery-name {
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  color: var(--color-black);
+  min-width: 150px;
+}
+
+.grocery-item .grocery-details .grocery-category {
+  font-size: 10px;
+  color: var(--color-neutral-600);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  background-color: var(--color-neutral-200);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-medium);
+  white-space: nowrap;
+}
+
+.grocery-quantity {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-black);
+  margin-left: auto;
+  background-color: var(--color-white);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-border);
+}
+
+/* ============================================
+   EMPTY & LOADING STATES
+   ============================================ */
+
+.no-recipes-message, .no-groceries-message {
+  text-align: center;
+  padding: var(--space-7);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-lg);
+  color: var(--color-neutral-500);
+  font-style: normal;
+  border: var(--border-width) solid var(--color-border);
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-11) 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-black);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--space-4);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   ERROR STATE
+   ============================================ */
+
+.error-message {
+  text-align: center;
+  padding: var(--space-7);
+  background-color: var(--color-neutral-50);
+  border: var(--border-width) solid var(--color-error);
+  border-radius: var(--radius-lg);
+  color: var(--color-error);
+  margin: var(--space-7) 0;
+}
+
+.error-message h2 {
+  margin-top: 0;
+  color: var(--color-error);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.list-btn {
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  margin-top: var(--space-4);
+}
+
+.list-btn:hover {
+  background-color: var(--color-neutral-800);
+}
+
+/* ============================================
+   NUTRITION
+   ============================================ */
+
+.nutrition-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nutrition-list li {
+  border-bottom: var(--border-width) solid var(--color-border);
+  padding: var(--space-2) 0;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
+  display: flex;
+  justify-content: space-between;
+}
+
+.nutrition-list li span:first-child {
+  font-weight: var(--font-medium);
+  text-transform: capitalize;
+  color: var(--color-black);
+}
+
+.nutrition-list li span:last-child {
+  margin-left: var(--space-3);
+  color: var(--color-neutral-500);
+}
+
+.nutrition-button {
+  background-color: transparent;
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-black);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+  margin-top: var(--space-4);
+  font-weight: var(--font-medium);
+}
+
+.nutrition-button:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .recipe-list-container {
+    padding-top: var(--space-8);
+  }
+
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .recipe-card-header {
+    padding: var(--space-4);
+  }
+  
+  .recipe-section {
+    padding: var(--space-4);
+  }
+  
+  .page-title {
+    font-size: var(--text-3xl);
+  }
+
+  .grocery-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+
+  .grocery-name {
+    min-width: auto;
+  }
+
+  .grocery-category {
+    min-width: auto;
+  }
+
+  .grocery-quantity {
+    margin-left: 0;
+    margin-top: var(--space-2);
+  }
+}

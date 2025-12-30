@@ -1,0 +1,203 @@
+/* ============================================
+   MEAL PLAN - Minimalist Professional
+   ============================================ */
+
+.mp-container {
+  margin: 0;
+  padding: var(--space-10) var(--space-5) var(--space-6);
+}
+
+.meal-plan-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.meal-plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 var(--space-6) 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+  padding-bottom: var(--space-4);
+}
+
+.meal-plan-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  margin: 0;
+  color: var(--color-black);
+  letter-spacing: var(--tracking-tight);
+}
+
+.week-navigation {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.nav-button {
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-black);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  transition: all var(--transition-base);
+}
+
+.nav-button:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* ============================================
+   TABLE
+   ============================================ */
+
+.meal-plan-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.meal-plan-table thead {
+  background-color: var(--color-neutral-50);
+}
+
+.meal-plan-table th,
+.meal-plan-table td {
+  border: var(--border-width) solid var(--color-border);
+  padding: var(--space-3);
+  text-align: left;
+}
+
+.meal-plan-table th {
+  font-weight: var(--font-semibold);
+  font-size: var(--text-xs);
+  color: var(--color-neutral-600);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.day-cell {
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+}
+
+.recipe-select {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  padding-right: var(--space-9);
+  border: var(--border-width) solid var(--color-border);
+  background-color: var(--color-white);
+  border-radius: var(--radius-md);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M1 4l5 5 5-5z' fill='%23737373'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) top 50%;
+  background-size: 12px;
+  font-size: var(--text-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.recipe-select:hover {
+  border-color: var(--color-neutral-400);
+}
+
+.recipe-select:focus {
+  outline: none;
+  border-color: var(--color-black);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .meal-plan-container {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+
+  .meal-plan-header {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .meal-plan-title {
+    font-size: var(--text-xl);
+    text-align: center;
+  }
+
+  .week-navigation {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-button {
+    flex: 1;
+    padding: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .meal-plan-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .meal-plan-table table,
+  .meal-plan-table thead,
+  .meal-plan-table tbody,
+  .meal-plan-table th,
+  .meal-plan-table td,
+  .meal-plan-table tr {
+    display: block;
+  }
+
+  .meal-plan-table thead {
+    display: none;
+  }
+
+  .meal-plan-table tr {
+    margin-bottom: var(--space-3);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    background-color: var(--color-white);
+  }
+
+  .meal-plan-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+    border: none;
+  }
+
+  .meal-plan-table td::before {
+    content: attr(data-label);
+    font-weight: var(--font-semibold);
+    flex-basis: 40%;
+    color: var(--color-black);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+  }
+
+  .recipe-select {
+    width: 55%;
+    font-size: var(--text-sm);
+  }
+
+  .mp-container {
+    padding: 0 var(--space-4) var(--space-4) var(--space-4);
+  }
+}
+  

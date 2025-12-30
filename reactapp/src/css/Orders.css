@@ -1,0 +1,244 @@
+/* ============================================
+   ORDERS PAGE - Minimalist Professional
+   ============================================ */
+
+.orders-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-6) var(--space-6);
+}
+
+.orders-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 var(--space-6) 0;
+  padding: 0 0 var(--space-4) 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+  text-align: center;
+}
+
+.orders-header h2 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-black);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  letter-spacing: var(--tracking-tight);
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ============================================
+   ORDER CARD
+   ============================================ */
+
+.order-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: var(--border-width) solid var(--color-border);
+  overflow: hidden;
+  transition: border-color var(--transition-base);
+}
+
+.order-card:hover {
+  border-color: var(--color-neutral-400);
+}
+
+.order-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--color-neutral-50);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.order-info h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-1) 0;
+  color: var(--color-black);
+}
+
+.order-date {
+  color: var(--color-neutral-500);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.order-total {
+  text-align: right;
+}
+
+.order-total p {
+  margin: 0;
+  color: var(--color-neutral-500);
+  font-size: var(--text-sm);
+}
+
+.price {
+  color: var(--color-black);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+}
+
+/* ============================================
+   ORDER ITEMS
+   ============================================ */
+
+.order-items {
+  padding: var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+  background-color: var(--color-white);
+}
+
+.order-item {
+  display: flex;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
+  transition: all var(--transition-base);
+}
+
+.order-item:hover {
+  border-color: var(--color-neutral-400);
+}
+
+.item-image {
+  width: 100px;
+  min-height: 100px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-neutral-50);
+  border-right: var(--border-width) solid var(--color-border);
+}
+
+.item-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.item-details {
+  flex: 1;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+}
+
+.item-details h4 {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-black);
+}
+
+.item-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: auto;
+}
+
+.item-price {
+  font-weight: var(--font-semibold);
+  color: var(--color-black);
+  font-size: var(--text-sm);
+}
+
+.item-quantity {
+  color: var(--color-neutral-500);
+  font-size: var(--text-xs);
+}
+
+.item-subtotal {
+  font-weight: var(--font-bold);
+  color: var(--color-black);
+  font-size: var(--text-base);
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+.no-orders {
+  text-align: center;
+  padding: var(--space-11) var(--space-6);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-lg);
+  border: var(--border-width) solid var(--color-border);
+  margin-top: var(--space-5);
+}
+
+.no-orders p {
+  font-size: var(--text-lg);
+  color: var(--color-neutral-500);
+  margin-bottom: var(--space-6);
+}
+
+.shop-now-button {
+  display: inline-block;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: var(--space-4) var(--space-7);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  transition: all var(--transition-base);
+  letter-spacing: var(--tracking-wide);
+}
+
+.shop-now-button:hover {
+  background-color: var(--color-neutral-800);
+  opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .order-items {
+    grid-template-columns: 1fr;
+    padding: var(--space-4);
+  }
+
+  .order-summary {
+    flex-direction: column;
+    gap: var(--space-4);
+    text-align: center;
+    padding: var(--space-4);
+  }
+
+  .order-total {
+    text-align: center;
+  }
+
+  .order-total {
+    align-self: flex-end;
+  }
+
+  .item-image {
+    width: 100px;
+    min-height: 100px;
+  }
+
+  .item-details {
+    padding: 12px;
+  }
+}

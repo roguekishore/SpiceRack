@@ -1,0 +1,280 @@
+/* ============================================
+   USER DETAILS - Minimalist Professional
+   ============================================ */
+
+/* Profile Container */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-white);
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-5) var(--space-6);
+}
+
+/* ============================================
+   PROFILE CARD
+   ============================================ */
+
+.profile-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 600px;
+  padding: 0 var(--space-7) var(--space-7) var(--space-7);
+  border: var(--border-width) solid var(--color-border);
+}
+
+/* ============================================
+   PROFILE HEADER
+   ============================================ */
+
+.profile-header {
+  padding-top: var(--space-7);
+  text-align: center;
+}
+
+.profile-header h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-black);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+/* ============================================
+   PROFILE DETAILS
+   ============================================ */
+
+.profile-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+.profile-avatar {
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+}
+
+.info-section {
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.info-section h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-black);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.info-group {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-neutral-100);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+}
+
+.info-group label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-neutral-600);
+}
+
+.info-group p {
+  font-size: var(--text-sm);
+  color: var(--color-black);
+  margin: 0;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.edit-button {
+  width: 100%;
+  padding: var(--space-3);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: var(--border-width) solid var(--color-black);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.edit-button:hover {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+/* ============================================
+   PROFILE FORM
+   ============================================ */
+
+.profile-form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.form-section {
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.form-section h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-black);
+  margin-bottom: var(--space-4);
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.form-group label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-neutral-600);
+}
+
+.form-group input {
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-black);
+  background-color: var(--color-white);
+  transition: border-color var(--transition-fast);
+}
+
+.form-group input:focus {
+  border-color: var(--color-black);
+  outline: none;
+}
+
+/* ============================================
+   PROFILE ACTIONS
+   ============================================ */
+
+.profile-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.save-button,
+.cancel-button {
+  flex: 1;
+  padding: var(--space-3);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.save-button {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.save-button:hover {
+  background-color: var(--color-neutral-800);
+}
+
+.cancel-button {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-border);
+}
+
+.cancel-button:hover {
+  background-color: var(--color-neutral-50);
+  border-color: var(--color-black);
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.profile-loading {
+  text-align: center;
+  font-size: var(--text-lg);
+  color: var(--color-neutral-500);
+  margin-top: var(--space-5);
+}
+
+/* ============================================
+   DIALOGS
+   ============================================ */
+
+.success-dialog {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.success-dialog .close-button {
+  color: var(--color-white);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  margin-left: var(--space-4);
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.success-dialog .close-button:hover {
+  opacity: 1;
+}
+
+.error-dialog {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  background-color: var(--color-neutral-900);
+  color: var(--color-white);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+}
