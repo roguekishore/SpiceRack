@@ -1,4 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============================================
+   SHADCN CSS VARIABLES
+   ============================================ */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 160 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 160 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 10% 10%;
+    --primary: 158 64% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 160 20% 96%;
+    --secondary-foreground: 160 10% 10%;
+    --muted: 160 10% 96%;
+    --muted-foreground: 160 5% 45%;
+    --accent: 160 20% 96%;
+    --accent-foreground: 160 10% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 160 10% 90%;
+    --input: 160 10% 90%;
+    --ring: 158 64% 40%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 160 10% 7%;
+    --foreground: 160 10% 98%;
+    --card: 160 10% 10%;
+    --card-foreground: 160 10% 98%;
+    --popover: 160 10% 10%;
+    --popover-foreground: 160 10% 98%;
+    --primary: 158 64% 50%;
+    --primary-foreground: 160 10% 5%;
+    --secondary: 160 10% 15%;
+    --secondary-foreground: 160 10% 98%;
+    --muted: 160 10% 15%;
+    --muted-foreground: 160 10% 60%;
+    --accent: 160 10% 18%;
+    --accent-foreground: 160 10% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 160 10% 20%;
+    --input: 160 10% 20%;
+    --ring: 158 64% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
 
 /* ============================================
    DESIGN SYSTEM - Minimalist Professional
@@ -113,8 +177,8 @@
   --nav-height: 64px;
 }
 
-/* === DARK MODE === */
-body.dark {
+/* === DARK MODE (using :root.dark to match theme provider) === */
+:root.dark {
   --color-white: #0a0a0a;
   --color-black: #ffffff;
   --color-neutral-50: #171717;
@@ -152,8 +216,6 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   font-weight: var(--font-normal);
-  color: var(--color-neutral-950);
-  background-color: var(--color-white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -170,7 +232,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-semibold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-  color: var(--color-black);
 }
 
 h1 { font-size: var(--text-4xl); }
@@ -181,7 +242,6 @@ h5 { font-size: var(--text-lg); }
 h6 { font-size: var(--text-base); }
 
 p {
-  color: var(--color-neutral-600);
   line-height: var(--leading-relaxed);
 }
 
@@ -203,8 +263,8 @@ a:hover {
 
 /* === SELECTION === */
 ::selection {
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
 /* === SCROLLBAR (Minimal) === */
@@ -228,7 +288,7 @@ a:hover {
 
 /* === FOCUS STATES === */
 :focus-visible {
-  outline: 2px solid var(--color-black);
+  outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
 }
 
