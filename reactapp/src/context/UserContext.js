@@ -9,6 +9,20 @@ export const UserProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [inventory, setInventory] = useState(null);
   
+  // Login prompt state
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [loginPromptMessage, setLoginPromptMessage] = useState('');
+  
+  // Helper function to check if user is logged in and show prompt if not
+  const requireAuth = (message = 'Please login or sign up to continue with this action.') => {
+    if (!user) {
+      setLoginPromptMessage(message);
+      setShowLoginPrompt(true);
+      return false;
+    }
+    return true;
+  };
+  
   // Track pending operations for rollback capability
   const pendingOperations = useRef(new Map());
   
@@ -80,6 +94,7 @@ export const UserProvider = ({ children }) => {
    * - This prevents stale server responses from overwriting optimistic state
    */
   const handleProductAdd = async (groceryId, groceryData = null) => {
+    if (!requireAuth('Please login or sign up to add items to your cart.')) return;
     if (!user?.cart) return;
     
     const operationId = `add-${groceryId}-${Date.now()}`;
@@ -209,6 +224,7 @@ export const UserProvider = ({ children }) => {
    * OPTIMISTIC UI: Delete product from cart
    */
   const handleProductDelete = async (groceryId) => {
+    if (!requireAuth('Please login or sign up to modify your cart.')) return;
     if (!user?.cart) return;
     
     const operationId = `delete-${groceryId}-${Date.now()}`;
@@ -245,6 +261,7 @@ export const UserProvider = ({ children }) => {
    * Uses pending count to handle rapid updates without race conditions
    */
   const handleUpdateQuantity = async (groceryId, quantity) => {
+    if (!requireAuth('Please login or sign up to modify your cart.')) return;
     if (!user?.cart) return;
     
     const roundedQty = Math.round(quantity * 10) / 10;
@@ -345,6 +362,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const handlePlaceOrder = async () => {
+    if (!requireAuth('Please login or sign up to place orders.')) return;
     if (!user?.cart?.id) return;
     
     // Store previous states for potential rollback
@@ -387,6 +405,7 @@ export const UserProvider = ({ children }) => {
    * Uses pending count to prevent race conditions with rapid updates
    */
   const handleInventoryQuantityUpdate = async (groceryId, quantity) => {
+    if (!requireAuth('Please login or sign up to manage your inventory.')) return;
     if (!user?.inventory?.id) return;
     
     const roundedQty = Math.round(quantity * 10) / 10;
@@ -559,7 +578,11 @@ export const UserProvider = ({ children }) => {
         inventory,
         fetchInventory,
         handleInventoryQuantityUpdate,
-        updateUser
+        updateUser,
+        showLoginPrompt,
+        setShowLoginPrompt,
+        loginPromptMessage,
+        requireAuth
       }}
     >
       {children}
