@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Routes, Route, useLocation, BrowserRouter } from 'react-router-dom';
 import Orders from './pages/Orders';
 import './App.css';
@@ -15,18 +15,23 @@ import RecipeList from './pages/RecipeList';
 import UserRecipes from './pages/UserRecipes';
 import MealPlanTable from './pages/MealPlan';
 import GroceryUpload from './pages/GroceryUpload';
-import { UserProvider } from './context/UserContext';
+import LoginPrompt from './pages/LoginPrompt';
+import { UserProvider, UserContext } from './context/UserContext';
+import { ThemeProvider } from './components/theme-provider';
+import { TooltipProvider } from './components/ui/tooltip';
 
 function Main() {
     const location = useLocation();
-    const isLoginPage = location.pathname === '/';
+    const isLoginPage = location.pathname === '/login';
+    const { showLoginPrompt, setShowLoginPrompt, loginPromptMessage } = useContext(UserContext);
 
     return (
         <main className="main">
             {!isLoginPage && <Navbar />}
             <div className={isLoginPage ? '' : 'app-container'}>
                 <Routes>
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/orders" element={<Orders />} />
                     <Route path="/cart" element={<Cart />} />
@@ -40,6 +45,11 @@ function Main() {
                     <Route path="/groceryupload" element={<GroceryUpload />} />
                 </Routes>
             </div>
+            <LoginPrompt 
+                isOpen={showLoginPrompt} 
+                onClose={() => setShowLoginPrompt(false)} 
+                message={loginPromptMessage}
+            />
             {/* {!isLoginPage && <Footer />} */}
         </main>
     );
@@ -47,10 +57,14 @@ function Main() {
 
 export default function App() {
     return (
-        <UserProvider>
-            <BrowserRouter>
-                <Main />
-            </BrowserRouter>
-        </UserProvider>
+        <ThemeProvider defaultTheme="light" storageKey="spicerack-theme">
+            <TooltipProvider>
+                <UserProvider>
+                    <BrowserRouter>
+                        <Main />
+                    </BrowserRouter>
+                </UserProvider>
+            </TooltipProvider>
+        </ThemeProvider>
     );
 }

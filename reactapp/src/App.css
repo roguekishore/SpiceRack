@@ -3,9 +3,8 @@
    ============================================ */
 
 .app-container {
-  padding-top: var(--nav-height);
+  /* padding-top: var(--nav-height); */
   min-height: calc(100vh - var(--nav-height));
-  background-color: var(--color-white);
 }
 
 /* ============================================
