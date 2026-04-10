@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Sparkles, Plus, X, Loader2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Badge } from '../components/ui/badge';
 
 const RecipeGenerator = () => {
   const [groceryItems, setGroceryItems] = useState([]);
@@ -11,6 +16,13 @@ const RecipeGenerator = () => {
     if (input.trim() !== "") {
       setGroceryItems([...groceryItems, input.trim()]);
       setInput("");
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddItem();
     }
   };
 
@@ -40,53 +52,79 @@ const RecipeGenerator = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h1 className="text-2xl font-bold text-center mb-4">Recipe Generator</h1>
+    <div className="min-h-screen pt-20 pb-8">
+      <div className="container mx-auto px-4 max-w-2xl">
+        <Card>
+          <CardHeader className="text-center">
+            <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <Sparkles className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle>Recipe Generator</CardTitle>
+            <CardDescription>Enter your ingredients and let AI create a recipe for you</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Input */}
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="Enter ingredient..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="flex-1"
+              />
+              <Button onClick={handleAddItem}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add
+              </Button>
+            </div>
 
-      <div className="flex space-x-2">
-        <input
-          type="text"
-          className="border p-2 w-full rounded"
-          placeholder="Enter ingredient..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleAddItem}
-        >
-          Add
-        </button>
-      </div>
+            {/* Ingredients List */}
+            {groceryItems.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {groceryItems.map((item, index) => (
+                  <Badge key={index} variant="secondary" className="px-3 py-1.5 text-sm">
+                    {item}
+                    <button
+                      className="ml-2 hover:text-destructive"
+                      onClick={() => handleRemoveItem(index)}
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            )}
 
-      <ul className="mt-4">
-        {groceryItems.map((item, index) => (
-          <li key={index} className="flex justify-between items-center bg-gray-100 p-2 rounded mt-2">
-            {item}
-            <button
-              className="text-red-500"
-              onClick={() => handleRemoveItem(index)}
+            {/* Generate Button */}
+            <Button
+              onClick={generateRecipe}
+              disabled={loading || groceryItems.length === 0}
+              className="w-full"
             >
-              ❌
-            </button>
-          </li>
-        ))}
-      </ul>
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Generate Recipe
+                </>
+              )}
+            </Button>
 
-      <button
-        className="bg-green-500 text-white px-4 py-2 mt-4 w-full rounded"
-        onClick={generateRecipe}
-        disabled={loading}
-      >
-        {loading ? "Generating..." : "Generate Recipe"}
-      </button>
-
-      {recipe && (
-        <div className="mt-4 p-4 bg-gray-100 rounded">
-          <h2 className="text-xl font-semibold">Generated Recipe:</h2>
-          <p className="mt-2">{recipe}</p>
-        </div>
-      )}
+            {/* Generated Recipe */}
+            {recipe && (
+              <div className="p-4 rounded-lg bg-muted/50">
+                <h3 className="font-semibold mb-2">Generated Recipe:</h3>
+                <p className="text-sm text-muted-foreground whitespace-pre-wrap">{recipe}</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
