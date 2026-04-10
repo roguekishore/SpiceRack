@@ -1,23 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
-import '../css/RecipeList.css';
+import { Clock, Package, ChevronDown, ChevronUp, Plus, Users, Loader2 } from 'lucide-react';
+import { Card, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Separator } from '../components/ui/separator';
+import { cn } from '../lib/utils';
 
 function UserRecipes() {
-    const [recipes, setRecipes] = useState([]); 
+    const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [expandedRecipe, setExpandedRecipe] = useState(null);
     const [nutritionData, setNutritionData] = useState({});
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+
     const handleAddRecipeClick = () => {
         navigate('/recipeform');
     };
 
     const navigateToRecipes = () => {
         navigate('/recipes');
-    }
+    };
 
     function convertToGramsAndFormatQuery(groceries) {
         const unitConversions = {
@@ -26,8 +31,8 @@ function UserRecipes() {
             oz: 28.3495,
             tablespoon: 14.787,
             teaspoon: 4.929,
-            millilitre : 1,
-            litre : 1000
+            millilitre: 1,
+            litre: 1000
         };
 
         const queryParts = groceries.map(groceryItem => {
@@ -62,7 +67,6 @@ function UserRecipes() {
                 return;
             }
             const query = convertToGramsAndFormatQuery(groceries);
-            console.log(query);
 
             const apikey = '71nIIfqwD3beHEzEnE8s6Q==Xx0DzBtdVWGwbCeA';
             const apiResponse = await fetch(`https://api.calorieninjas.com/v1/nutrition?query=${encodeURIComponent(query)}`, {
@@ -78,7 +82,6 @@ function UserRecipes() {
             }
 
             const result = await apiResponse.json();
-            console.log("Nutritional Info:", result);
 
             const aggregatedData = {};
             result.items.forEach(item => {
@@ -96,8 +99,8 @@ function UserRecipes() {
         }
     };
 
-
     useEffect(() => {
+        if (!user?.id) return;
         setLoading(true);
         fetch(`${process.env.REACT_APP_API_URL}/api/recipes/user/${user.id}`)
             .then((response) => {
@@ -115,7 +118,7 @@ function UserRecipes() {
                 setError('Failed to load recipes. Please try again later.');
                 setLoading(false);
             });
-    }, []);
+    }, [user?.id]);
 
     const toggleRecipeExpansion = (recipeId) => {
         if (expandedRecipe === recipeId) {
@@ -125,12 +128,41 @@ function UserRecipes() {
         }
     };
 
+    const getInstructionsArray = (recipe) => {
+        if (Array.isArray(recipe.instructions)) {
+            return recipe.instructions;
+        } else if (typeof recipe.instructions === 'string') {
+            return recipe.instructions.split('; ');
+        }
+        return [];
+    };
+
+    if (!user) {
+        return (
+            <div className="min-h-screen pt-20 pb-8">
+                <div className="container mx-auto px-4">
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold tracking-tight">Your Recipes</h1>
+                    </div>
+                    <Card>
+                        <CardContent className="py-12 text-center">
+                            <p className="text-muted-foreground mb-4">Please login to view and create your own recipes.</p>
+                            <Button onClick={() => navigate('/login')}>
+                                Login / Sign Up
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
+
     if (loading) {
         return (
-            <div className="recipe-list-container">
-                <div className="loading-indicator">
-                    <div className="spinner"></div>
-                    <p>Loading recipes...</p>
+            <div className="min-h-screen pt-20 pb-8 flex items-center justify-center">
+                <div className="text-center">
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+                    <p className="text-muted-foreground">Loading recipes...</p>
                 </div>
             </div>
         );
@@ -138,128 +170,175 @@ function UserRecipes() {
 
     if (error) {
         return (
-            <div className="recipe-list-container">
-                <div className="error-message">
-                    <h2>Error</h2>
-                    <p>{error}</p>
-                    <button onClick={() => window.location.reload()} className="list-btn btn-primary">
-                        Retry
-                    </button>
+            <div className="min-h-screen pt-20 pb-8">
+                <div className="container mx-auto px-4">
+                    <Card className="max-w-md mx-auto text-center">
+                        <CardContent className="py-8">
+                            <h2 className="text-lg font-semibold mb-2">Error</h2>
+                            <p className="text-muted-foreground mb-4">{error}</p>
+                            <Button onClick={() => window.location.reload()}>
+                                Retry
+                            </Button>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="recipe-list-container">
-            <div className="recipe-list-header">
-                <h1 className="page-title">Recipe Collection</h1>
-                <p className="recipe-count">{recipes.length} {recipes.length === 1 ? 'Recipe' : 'Recipes'} Available</p>
-                <div className='user-recipe-container'>
-                <button className='add-recipe-btn' onClick={handleAddRecipeClick}>Add a recipe</button>
-                <button className='add-recipe-btn' onClick={navigateToRecipes}>Community Recipes</button>
+        <div className="min-h-screen pt-20 pb-8">
+            <div className="container mx-auto px-4">
+                {/* Header */}
+                <div className="mb-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                        <div>
+                            <h1 className="text-3xl font-bold tracking-tight">Your Recipes</h1>
+                            <p className="text-muted-foreground">
+                                {recipes.length} {recipes.length === 1 ? 'Recipe' : 'Recipes'} Created
+                            </p>
+                        </div>
+                        <div className="flex gap-2">
+                            <Button onClick={handleAddRecipeClick}>
+                                <Plus className="h-4 w-4 mr-2" />
+                                Add Recipe
+                            </Button>
+                            <Button variant="outline" onClick={navigateToRecipes}>
+                                <Users className="h-4 w-4 mr-2" />
+                                Community Recipes
+                            </Button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            {recipes.length === 0 ? (
-                <div className="no-recipes-message">
-                    <p>No recipes found. Add your first recipe to get started.</p>
-                </div>
-            ) : (
-                <div className="recipe-list">
-                    {recipes.map((recipe) => (
-                        <div key={recipe.id} className="recipe-item">
-                            <div className="recipe-card">
+                {/* Recipe List */}
+                {recipes.length === 0 ? (
+                    <Card>
+                        <CardContent className="py-12 text-center">
+                            <p className="text-muted-foreground">No recipes found. Add your first recipe to get started.</p>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <div className="space-y-4">
+                        {recipes.map((recipe) => (
+                            <Card key={recipe.id} className="overflow-hidden">
+                                {/* Recipe Header */}
                                 <div
-                                    className="recipe-card-header"
+                                    className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
                                     onClick={() => toggleRecipeExpansion(recipe.id)}
                                 >
-                                    <h2 className="recipe-title">{recipe.name}</h2>
-                                    <div className="recipe-meta">
-                                        <span className='prep-time'>by {recipe.user.name}</span>
-                                        <span className="prep-time">
-                                            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <polyline points="12 6 12 12 16 14"></polyline>
-                                            </svg>
-                                            {recipe.minutes} min
-                                        </span>
-                                        <span className="ingredients-count">
-                                            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M3 6h18"></path>
-                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                            </svg>
-                                            {recipe.requiredGroceryDTOs ? recipe.requiredGroceryDTOs.length : 0} items
-                                        </span>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex-1">
+                                            <h2 className="text-lg font-semibold">{recipe.name}</h2>
+                                            <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1">
+                                                    <Clock className="h-4 w-4" />
+                                                    {recipe.minutes} min
+                                                </span>
+                                                <span className="flex items-center gap-1">
+                                                    <Package className="h-4 w-4" />
+                                                    {recipe.requiredGroceryDTOs ? recipe.requiredGroceryDTOs.length : 0} items
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {expandedRecipe === recipe.id ? (
+                                            <ChevronUp className="h-5 w-5 text-muted-foreground" />
+                                        ) : (
+                                            <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                                        )}
                                     </div>
-                                    <div className="expand-indicator">
-                                        {expandedRecipe === recipe.id ? '−' : '+'}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={`recipe-card-content ${expandedRecipe === recipe.id ? 'expanded' : ''}`}>
-                                <div className="recipe-section">
-                                    <h3 className="section-title">Instructions</h3>
-                                    <ol className="instructions-list">
-                                        {recipe.instructions.map((instruction, index) => (
-                                            <li key={index} className="instruction-item">
-                                                {instruction}
-                                            </li>
-                                        ))}
-                                    </ol>
                                 </div>
 
-                                <div className="recipe-section">
-                                    <h3 className="section-title">Required Groceries</h3>
-                                    {recipe.requiredGroceryDTOs && recipe.requiredGroceryDTOs.length > 0 ? (
-                                        <ul className="groceries-list">
-                                            {recipe.requiredGroceryDTOs.map((groceryItem, index) => (
-                                                <li key={index} className="grocery-item">
-                                                    <div className="grocery-image-container">
-                                                        {groceryItem.grocery.imageUrl ? (
-                                                            <img
-                                                                src={groceryItem.grocery.imageUrl}
-                                                                alt={groceryItem.grocery.name}
-                                                                className="grocery-image"
-                                                                onError={(e) => {
-                                                                    e.target.onerror = null;
-                                                                    e.target.src = 'https://placehold.co/100x100?text=No+Image';
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <div className="image-placeholder">
-                                                                {groceryItem.grocery.name.charAt(0).toUpperCase()}
+                                {/* Expanded Content */}
+                                <div className={cn(
+                                    "overflow-hidden transition-all duration-300",
+                                    expandedRecipe === recipe.id ? "max-h-[2000px]" : "max-h-0"
+                                )}>
+                                    <Separator />
+                                    <CardContent className="pt-4">
+                                        {/* Instructions */}
+                                        <div className="mb-6">
+                                            <h3 className="font-semibold mb-3">Instructions</h3>
+                                            <ol className="list-decimal list-inside space-y-2">
+                                                {getInstructionsArray(recipe).map((instruction, index) => (
+                                                    <li key={index} className="text-sm text-muted-foreground pl-2">
+                                                        {instruction}
+                                                    </li>
+                                                ))}
+                                            </ol>
+                                        </div>
+
+                                        {/* Required Groceries */}
+                                        <div>
+                                            <h3 className="font-semibold mb-3">Required Groceries</h3>
+                                            {recipe.requiredGroceryDTOs && recipe.requiredGroceryDTOs.length > 0 ? (
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4">
+                                                    {recipe.requiredGroceryDTOs.map((groceryItem, index) => (
+                                                        <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
+                                                            <div className="w-10 h-10 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                                                                {groceryItem.grocery.imageUrl ? (
+                                                                    <img
+                                                                        src={groceryItem.grocery.imageUrl}
+                                                                        alt={groceryItem.grocery.name}
+                                                                        className="w-full h-full object-cover"
+                                                                        onError={(e) => {
+                                                                            e.target.onerror = null;
+                                                                            e.target.src = 'https://placehold.co/100x100?text=No+Image';
+                                                                        }}
+                                                                    />
+                                                                ) : (
+                                                                    <div className="w-full h-full flex items-center justify-center text-sm font-medium">
+                                                                        {groceryItem.grocery.name.charAt(0).toUpperCase()}
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                        )}
+                                                            <div className="min-w-0">
+                                                                <p className="text-sm font-medium truncate">
+                                                                    {groceryItem.grocery.name.charAt(0).toUpperCase() + groceryItem.grocery.name.slice(1)}
+                                                                </p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    {groceryItem.quantity} {groceryItem.unit}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p className="text-sm text-muted-foreground mb-4">No groceries required for this recipe.</p>
+                                            )}
+
+                                            <Button 
+                                                variant="outline" 
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    getNutritionInfo(recipe.id);
+                                                }}
+                                            >
+                                                Get Nutritional Information
+                                            </Button>
+
+                                            {nutritionData[recipe.id] && (
+                                                <div className="mt-4 p-4 rounded-lg bg-muted/50">
+                                                    <h4 className="font-medium mb-2">Nutritional Information</h4>
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                                        {Object.entries(nutritionData[recipe.id]).map(([key, value]) => (
+                                                            <div key={key} className="flex justify-between text-sm">
+                                                                <span className="text-muted-foreground capitalize">{key.replace(/_/g, ' ')}</span>
+                                                                <span className="font-medium">{value.toFixed(2)}</span>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                    <div className="grocery-details">
-                                                        <span className="grocery-name">{groceryItem.grocery.name.charAt(0).toUpperCase() + groceryItem.grocery.name.slice(1)}</span>
-                                                        <span className="grocery-category">{groceryItem.grocery.category}</span>
-                                                        <span className="grocery-quantity">{groceryItem.quantity} {groceryItem.unit}</span>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="no-groceries-message">No groceries required for this recipe.</p>
-                                    )}
-                                    <button className='nutrition-button' onClick={() => getNutritionInfo(recipe.id)}>Get Nutritional Information</button>
-                                    {nutritionData[recipe.id] && (
-                                        <ul className="nutrition-list">
-                                            {Object.entries(nutritionData[recipe.id]).map(([key, value]) => (
-                                                <li key={key}>
-                                                    <span>{key.replace(/_/g, ' ')}</span>
-                                                    <span>{value.toFixed(2)}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </CardContent>
                                 </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+                            </Card>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
