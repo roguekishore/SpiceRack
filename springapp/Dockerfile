@@ -1,28 +1,28 @@
-# Use an official Maven image to build the Spring Boot app 
-FROM maven:3.8.4-openjdk-17 AS build 
+# ── Stage 1: Build native binary ─────────────────────────────────────────────
+FROM --platform=linux/arm64 ghcr.io/graalvm/native-image-community:17 AS build
 
-#Set the working directory 
-WORKDIR /app 
+# Install Maven (GraalVM image only ships the JDK + native-image tool)
+RUN microdnf install -y maven && microdnf clean all
 
-#Copy the pom.xml and install dependencies 
-COPY pom.xml .
-RUN mvn dependency:go-offline 
-
-# Copy the source code and build the application 
-COPY src ./src 
-RUN mvn clean package -DskipTests 
-
-# Use an official Eclipse Temurin image to run the application
-FROM eclipse-temurin:17-jre-alpine
-
-#Set the working directory 
 WORKDIR /app
- 
-#Copy the built JAR file from the build stage 
-COPY --from=build /app/target/spicerack-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose port 8080 
-EXPOSE 8080 
+# Download dependencies first (cached layer — only re-runs if pom.xml changes)
+COPY pom.xml .
+RUN mvn dependency:go-offline -q
 
-# Specify the command to run the application 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Copy source and compile to native binary
+COPY src ./src
+RUN mvn clean package -Pnative -DskipTests
+
+# ── Stage 2: Minimal runtime image ───────────────────────────────────────────
+# No JRE needed — the native binary is self-contained
+FROM --platform=linux/arm64 debian:bookworm-slim
+
+WORKDIR /app
+
+# Copy the compiled native binary from build stage
+COPY --from=build /app/target/spicerack app
+
+EXPOSE 8080
+
+ENTRYPOINT ["./app"]
