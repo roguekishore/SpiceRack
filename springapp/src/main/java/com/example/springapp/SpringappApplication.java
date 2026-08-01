@@ -2,8 +2,12 @@ package com.example.springapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportRuntimeHints;
+
+import com.example.springapp.config.MySqlNativeRuntimeHints;
 
 @SpringBootApplication
+@ImportRuntimeHints(MySqlNativeRuntimeHints.class)
 public class SpringappApplication {
 
 	public static void main(String[] args) {
