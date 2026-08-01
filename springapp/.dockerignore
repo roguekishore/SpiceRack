@@ -1,0 +1,24 @@
+# Build output (rebuilt inside the image)
+target/
+
+# Local env and secrets
+.env
+.env.*
+
+# IDE and editor
+.idea/
+.vscode/
+*.iml
+
+# Git
+.git/
+.gitignore
+
+# Maven wrapper (Dockerfile installs Maven in the image)
+.mvn/
+mvnw
+mvnw.cmd
+
+# Logs and misc
+logs/
+*.log
