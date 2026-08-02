@@ -1,5 +1,8 @@
 /logs/
 
+# Deployment private key — never commit
+build.pem
+
 .env
 .env.local
 .env.*.local
