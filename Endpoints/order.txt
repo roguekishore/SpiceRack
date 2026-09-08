@@ -1,0 +1,63 @@
+POST /api/orders/{userId} (createOrder)
+[
+  {
+    "id": 1,
+    "name": "Apples",
+    "price": 1.99,
+    "category": "Fruits",
+    "type": "Produce",
+    "unit": "kg",
+    "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/almonds.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Milk",
+    "price": 2.99,
+    "category": "Dairy",
+    "type": "Beverage",
+    "unit": "L",
+    "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/almonds.jpeg"
+  }
+]
+
+
+PUT
+{
+  "date": "2025-03-17T15:30:00.000Z",
+  "groceries": [
+    {
+      "id": 3,
+      "name": "milk",
+      "price": 3.49,
+      "category": "dairy",
+      "type": "vegetarian",
+      "unit": "litre",
+      "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/milk.jpeg"
+    },
+    {
+      "id": 4,
+      "name": "bread",
+      "price": 2.29,
+      "category": "bakery",
+      "type": "vegetarian",
+      "unit": "loaf",
+      "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/bread.jpeg"
+    }
+  ]
+}
+
+
+GET /api/orders (getAllOrders)
+
+
+GET /api/orders/{id} (getOrderById)
+
+
+DELETE /api/orders/{id} (deleteOrder)
+
+
+GET /api/orders/user/{userId} (getOrderByUserId)
+
+
+//to place order
+POST /api/carts/order/{cartId} (placeOrderFromCart)

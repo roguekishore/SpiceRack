@@ -1,0 +1,60 @@
+
+Grocery Entity
+POST /api/groceries (createGrocery)
+{
+  "name": "Apples",
+  "price": 1.99,
+  "category": "Fruits",
+  "type": "Produce",
+  "unit": "kg",
+  "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/almonds.jpeg"
+}
+
+GET /api/groceries/{id} (getGrocery)
+
+PUT /api/groceries/{id} (updateGrocery)
+{
+  "name": "Updated Apples",
+  "price": 2.49,
+  "category": "Fresh Fruits",
+  "type": "Produce",
+  "unit": "kg",
+  "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/almonds.jpeg"
+}
+
+DELETE /api/groceries/{id} (deleteGrocery)
+
+POST /api/groceries/bulkadd
+[
+  {
+    "name": "Bananas",
+    "price": 0.99,
+    "category": "Fruits",
+    "type": "Produce",
+    "unit": "kg",
+    "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/almonds.jpeg"
+  },
+  {
+    "name": "Milk",
+    "price": 2.99,
+    "category": "Dairy",
+    "type": "Beverage",
+    "unit": "L",
+    "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/almonds.jpeg"
+  }
+]
+
+GET /api/groceries/all (getGroceries)
+
+PATCH /api/groceries/{id}/details (updateItemDetails)
+
+{
+  "category": "New Category",
+  "type": "New Type",
+  "unit": "New Unit",
+  "imageUrl": "https://grocerybucket133.s3.ap-south-1.amazonaws.com/almonds.jpeg",
+  "price": 3.99
+}
+
+GET /api/groceries/paginated (getPaginatedGroceries)
+?page=0&size=10&sort=price,asc&name=Apples&type=Produce&category=Fruits&sortBy=price&ascending=true

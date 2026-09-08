@@ -1,0 +1,11 @@
+GET /api/carts/{cartId}/items (getCartItems)
+
+
+POST /api/carts/{cartId}/items/add/{groceryId} (addGroceryToCart)
+//by default 1
+
+
+PUT /api/carts/{cartId}/items/modify/{groceryId}?quantity=2.0 (updateCartItemQuantity)
+
+
+DELETE /api/carts/{cartId}/items/remove/{groceryId} (removeGroceryFromCart)
