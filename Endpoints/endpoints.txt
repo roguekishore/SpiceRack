@@ -1,0 +1,50 @@
+Fetch Orders:
+http://localhost:8080/api/orders/user/${userId} (GET)
+
+
+Fetch Cart:
+http://localhost:8080/api/carts/user/${userId} (GET)
+
+
+Fetch Inventory:
+http://localhost:8080/api/inventories/users/${userId} (GET)
+
+
+Add Product to Cart:
+http://localhost:8080/api/carts/${user.cart.id}/items/add/${groceryId} (POST)
+
+
+Delete Product from Cart:
+http://localhost:8080/api/carts/${user.cart.id}/items/remove/${groceryId} (DELETE)
+
+
+Update Product Quantity in Cart:
+http://localhost:8080/api/carts/${user.cart.id}/items/modify/${groceryId}?quantity=${quantity} (PUT)
+
+
+Toggle Product Favourite in Cart:
+http://localhost:8080/api/carts/${user.cart.id}/items/${groceryId}/favorite (PUT)
+
+
+Place Order from Cart:
+http://localhost:8080/api/carts/order/${user.cart.id} (POST)
+
+
+Update Inventory Quantity:
+http://localhost:8080/api/inventories/${user.inventory.id}/items/${groceryId}?quantity=${quantity} (PUT)
+
+
+Remove Item from Inventory:
+http://localhost:8080/api/inventories/${user.inventory.id}/items/${groceryId} (DELETE)
+
+
+http://localhost:8080/api/recipes (GET): Fetches all recipes.
+
+
+http://localhost:8080/api/mealplans/range (GET): Fetches meal plans for a date range.
+
+
+http://localhost:8080/api/mealplans (POST): Creates or updates a meal plan.
+
+
+http://localhost:8080/api/orders/add/${userId} (POST): Creates a new order for the user id

@@ -1,0 +1,25 @@
+POST /api/inventories/{userId} (createInventory)
+//created when user is created
+
+
+GET /api/inventories/{inventoryId} (getInventoryById)
+
+
+GET /api/inventories/users/{userId} (getInventoryByUserId)
+
+
+DELETE /api/inventories/{inventoryId} (deleteInventory)
+
+
+
+//inventoryGrocery endpoints
+POST /api/inventories/{inventoryId}/items/{groceryId}?quantity=2.0 (addInventoryItem)
+
+
+GET /api/inventories/{inventoryId}/items (getInventoryItems)
+
+
+PUT /api/inventories/{inventoryId}/items/{groceryId}?quantity=3.5 (updateInventoryItem)
+
+
+DELETE /api/inventories/{inventoryId}/items/{groceryId} (removeInventoryItem)

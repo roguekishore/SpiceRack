@@ -1,0 +1,17 @@
+POST /api/mealplans (createMealPlan)
+{
+  "userId": 1,
+  "date": "2024-10-27",
+  "breakfastRecipeId": 1,
+  "lunchRecipeId": 2,
+  "dinnerRecipeId": 3
+}
+
+
+GET /api/mealplans?userId=1&date=2024-10-27 (getMealPlan)
+
+
+GET /api/mealplans/range?userId=1&startDate=2024-10-25&endDate=2024-10-29 (getMealPlansByUserAndDateRange)
+
+
+DELETE /api/mealplans?userId=1&date=2024-10-27 (deleteMealPlan)

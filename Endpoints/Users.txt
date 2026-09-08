@@ -1,0 +1,25 @@
+Users Entity
+
+POST /api/users
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "securepassword123"
+}
+
+GET /api/users
+
+GET /api/users/{id}
+
+
+PUT /api/users/{id} 
+Replace {id} with the user's ID.
+
+{
+  "name": "Updated Name",
+  "email": "updated.email@example.com",
+  "password": "newsecurepassword456"
+}
+
+DELETE /api/users/{id} 
