@@ -1,5 +1,5 @@
 # ── Stage 1: Build native binary ─────────────────────────────────────────────
-FROM --platform=linux/arm64 ghcr.io/graalvm/native-image-community:17 AS build
+FROM --platform=linux/arm64 ghcr.io/graalvm/native-image-community:25 AS build
 
 # Install Maven (GraalVM image only ships the JDK + native-image tool)
 RUN microdnf install -y maven && microdnf clean all
