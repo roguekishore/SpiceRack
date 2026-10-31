@@ -8,7 +8,7 @@ const GroceryList = ({ selectedGroceries, onSelectGrocery }) => {
   const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/groceries`)
+    fetch(`${import.meta.env.REACT_APP_API_URL}/api/groceries`)
       .then((response) => response.json())
       .then((data) => setGroceries(data))
       .catch((error) => console.error("Error fetching groceries:", error));

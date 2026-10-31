@@ -1,27 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
-import { Clock, Package, ChevronDown, ChevronUp, Plus, Users, Loader2 } from 'lucide-react';
-import { Card, CardContent } from '../components/ui/card';
+import { Clock, Package, ChevronDown, ChevronUp, Plus, User, Loader2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
 import { cn } from '../lib/utils';
 
-function UserRecipes() {
+function RecipeList() {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [expandedRecipe, setExpandedRecipe] = useState(null);
     const [nutritionData, setNutritionData] = useState({});
     const navigate = useNavigate();
-    const { user } = useContext(UserContext);
 
     const handleAddRecipeClick = () => {
         navigate('/recipeform');
-    };
-
-    const navigateToRecipes = () => {
-        navigate('/recipes');
     };
 
     function convertToGramsAndFormatQuery(groceries) {
@@ -55,7 +50,7 @@ function UserRecipes() {
 
     const getNutritionInfo = async (recipeId) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${recipeId}`);
+            const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/recipes/${recipeId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch required groceries');
             }
@@ -100,9 +95,8 @@ function UserRecipes() {
     };
 
     useEffect(() => {
-        if (!user?.id) return;
         setLoading(true);
-        fetch(`${process.env.REACT_APP_API_URL}/api/recipes/user/${user.id}`)
+        fetch(`${import.meta.env.REACT_APP_API_URL}/api/recipes`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -118,7 +112,7 @@ function UserRecipes() {
                 setError('Failed to load recipes. Please try again later.');
                 setLoading(false);
             });
-    }, [user?.id]);
+    }, []);
 
     const toggleRecipeExpansion = (recipeId) => {
         if (expandedRecipe === recipeId) {
@@ -128,34 +122,18 @@ function UserRecipes() {
         }
     };
 
+    const navigateToUserRecipes = () => {
+        navigate('/userrecipes');
+    };
+
     const getInstructionsArray = (recipe) => {
-        if (Array.isArray(recipe.instructions)) {
-            return recipe.instructions;
-        } else if (typeof recipe.instructions === 'string') {
+        if (recipe.instructionsList && Array.isArray(recipe.instructionsList)) {
+            return recipe.instructionsList;
+        } else if (recipe.instructions) {
             return recipe.instructions.split('; ');
         }
         return [];
     };
-
-    if (!user) {
-        return (
-            <div className="min-h-screen pt-20 pb-8">
-                <div className="container mx-auto px-4">
-                    <div className="mb-8">
-                        <h1 className="text-3xl font-bold tracking-tight">Your Recipes</h1>
-                    </div>
-                    <Card>
-                        <CardContent className="py-12 text-center">
-                            <p className="text-muted-foreground mb-4">Please login to view and create your own recipes.</p>
-                            <Button onClick={() => navigate('/login')}>
-                                Login / Sign Up
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </div>
-            </div>
-        );
-    }
 
     if (loading) {
         return (
@@ -193,9 +171,9 @@ function UserRecipes() {
                 <div className="mb-8">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
                         <div>
-                            <h1 className="text-3xl font-bold tracking-tight">Your Recipes</h1>
+                            <h1 className="text-3xl font-bold tracking-tight">Recipe Collection</h1>
                             <p className="text-muted-foreground">
-                                {recipes.length} {recipes.length === 1 ? 'Recipe' : 'Recipes'} Created
+                                {recipes.length} {recipes.length === 1 ? 'Recipe' : 'Recipes'} Available
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -203,9 +181,9 @@ function UserRecipes() {
                                 <Plus className="h-4 w-4 mr-2" />
                                 Add Recipe
                             </Button>
-                            <Button variant="outline" onClick={navigateToRecipes}>
-                                <Users className="h-4 w-4 mr-2" />
-                                Community Recipes
+                            <Button variant="outline" onClick={navigateToUserRecipes}>
+                                <User className="h-4 w-4 mr-2" />
+                                My Recipes
                             </Button>
                         </div>
                     </div>
@@ -231,6 +209,10 @@ function UserRecipes() {
                                         <div className="flex-1">
                                             <h2 className="text-lg font-semibold">{recipe.name}</h2>
                                             <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1">
+                                                    <User className="h-4 w-4" />
+                                                    {recipe.user.name}
+                                                </span>
                                                 <span className="flex items-center gap-1">
                                                     <Clock className="h-4 w-4" />
                                                     {recipe.minutes} min
@@ -275,7 +257,7 @@ function UserRecipes() {
                                                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4">
                                                     {recipe.requiredGroceryDTOs.map((groceryItem, index) => (
                                                         <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
-                                                            <div className="w-10 h-10 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                                                            <div className="w-10 h-10 rounded-md overflow-hidden bg-muted shrink-0">
                                                                 {groceryItem.grocery.imageUrl ? (
                                                                     <img
                                                                         src={groceryItem.grocery.imageUrl}
@@ -343,4 +325,4 @@ function UserRecipes() {
     );
 }
 
-export default UserRecipes;
+export default RecipeList;

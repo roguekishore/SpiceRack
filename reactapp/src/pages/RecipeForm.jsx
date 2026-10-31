@@ -23,7 +23,7 @@ function RecipeForm() {
     const userId = user?.id;
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/api/groceries/all`)
+        fetch(`${import.meta.env.REACT_APP_API_URL}/api/groceries/all`)
             .then((response) => response.json())
             .then((data) => setGroceries(data))
             .catch(() => {});
@@ -130,7 +130,7 @@ function RecipeForm() {
             userId: userId,
         };
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/recipes`, {
+        fetch(`${import.meta.env.REACT_APP_API_URL}/api/recipes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ function RecipeForm() {
                             <div className="space-y-3">
                                 {instructions.map((instruction, index) => (
                                     <div key={index} className="flex items-start gap-3">
-                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-medium">
+                                        <div className="shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-medium">
                                             {index + 1}
                                         </div>
                                         <textarea
@@ -295,7 +295,7 @@ function RecipeForm() {
                                                             )}
                                                             onClick={() => selectGroceryItem(grocery)}
                                                         >
-                                                            <div className="w-10 h-10 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                                                            <div className="w-10 h-10 rounded-md overflow-hidden bg-muted shrink-0">
                                                                 {grocery.imageUrl ? (
                                                                     <img src={grocery.imageUrl} alt={grocery.name} className="w-full h-full object-cover" />
                                                                 ) : (

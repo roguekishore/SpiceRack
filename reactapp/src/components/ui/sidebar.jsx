@@ -78,7 +78,7 @@ export const Sidebar = ({ children, className }) => {
   return (
     <aside
       className={cn(
-        "relative flex h-screen flex-col flex-shrink-0 border-r bg-background transition-all duration-300",
+        "relative flex h-screen flex-col shrink-0 border-r bg-background transition-all duration-300",
         isCollapsed ? "w-16" : "w-64",
         className
       )}

@@ -56,7 +56,7 @@ export default function Home() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/groceries/all`);
+      const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/groceries/all`);
       const groceries = await response.json();
       
       // Group groceries by category and count
@@ -137,7 +137,7 @@ export default function Home() {
           </div>
           
           {/* Right - Visual */}
-          <div className="hidden lg:flex bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 items-center justify-center p-12">
+          <div className="hidden lg:flex bg-linear-to-br from-primary/5 via-primary/10 to-primary/5 items-center justify-center p-12">
             <div className="relative w-full max-w-md">
               {/* Decorative circles */}
               <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
@@ -237,7 +237,7 @@ export default function Home() {
             {/* Large Featured Card */}
             <Link
               to="/recipes"
-              className="group md:col-span-2 lg:col-span-2 relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-primary/80 p-8 md:p-10 text-primary-foreground"
+              className="group md:col-span-2 lg:col-span-2 relative overflow-hidden rounded-2xl bg-linear-to-br from-primary to-primary/80 p-8 md:p-10 text-primary-foreground"
             >
               <div className="relative z-10">
                 <Book className="h-10 w-10 mb-4 opacity-90" />

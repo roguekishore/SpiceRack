@@ -25,7 +25,7 @@ const MealPlanTable = () => {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/recipes`);
+      const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/recipes`);
       setRecipes(response.data);
     } catch (error) {
       console.error('Error fetching recipes:', error);
@@ -35,7 +35,7 @@ const MealPlanTable = () => {
   const fetchMealPlans = async () => {
     if (!user?.id) return;
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/mealplans/range`, {
+      const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/mealplans/range`, {
         params: {
           userId: user.id,
           startDate: format(currentWeekStart, 'yyyy-MM-dd'),
@@ -65,7 +65,7 @@ const MealPlanTable = () => {
     };
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/mealplans`, mealPlanData);
+      await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/mealplans`, mealPlanData);
       fetchMealPlans();
     } catch (error) {
       console.error('Error saving meal plan:', error);

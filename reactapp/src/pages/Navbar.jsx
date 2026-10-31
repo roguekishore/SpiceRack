@@ -79,7 +79,7 @@ export default function Navbar() {
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-200",
       isScrolled 
-        ? "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b" 
+        ? "bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 border-b" 
         : "bg-background"
     )}>
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
