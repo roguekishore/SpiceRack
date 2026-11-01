@@ -3,23 +3,43 @@
 **Run**: `spicerack-spring`  
 **Branch**: `chore/stack-spring`  
 **Base SHA**: `6d36337f859b09679063484c7003a804d78a9c86`  
-**Target Specification**: `~/apps-gates/SPEC.md` (Spring Boot 4.1.2 parent, Java 17 stage C1 / Java 25 stage C2, GraalVM native image builder `:25`)
+**Target Specification**: `~/apps-gates/SPEC.md` (Spring Boot 4.1.2 parent, Java 25 stage C2, GraalVM native image builder `:25`)
 
 ---
 
 ## 1. Phase Execution Status (`../PROGRESS.md`)
 
-| Phase | Description | Status | Commit | Details / Notes |
+From `../PROGRESS.md`:
+
+| Phase | Description | Status | Commit | Notes |
 |---|---|---|---|---|
-| **P1** | Boot 4.1.2 compiles and tests pass on Java 17 | **PASSED** (`done`) | `6f20172969` | Upgraded to Spring Boot parent `4.1.2`, switched to modular `spring-boot-starter-webmvc`, updated GraalVM native image builder to `:25`, removed deprecated Hibernate MySQL dialect. All tests pass on JDK 17. |
-| **P2** | Boot 4.1.2 runtime parity on Java 17 | **FAILED** (`failed`) | `50d6a2ee84` | Failed on external gate harness crash (3 attempts). Note from `PROGRESS.md`: `verify exit 1: /run17.runtime.txt) File "/home/ubuntu/apps-gates/runtime.py", line 208 say(f"G2 FAIL: migrated jar exite`. SyntaxError in test harness script; application itself booted and passed differential tests. |
-| **P3** | Java 25 (stage C2) | **SKIPPED** (`skipped`) | — | Skipped automatically by the driver because dependent phase P2 failed on the harness blocker. |
-| **P4** | Review and fix | **PASSED** (`done`) | `4f0985ff6d` | Completed comprehensive code and configuration review (`docs/nightrun/spicerack-spring-review.md`). Confirmed full schema and API parity. Verified G1 build & test, G4 AOT compile, and G7 change scope. |
-| **P5** | Handoff report | **PASSED** (`done`) | Current | Produced this handoff document (`docs/nightrun/spicerack-spring-handoff.md`). No code changes made. |
+| **P1** | Boot 4.1.2 compiles and tests pass on Java 17 | **done** (passed) | `6f20172969` | Initial upgrade to Boot 4.1.2 parent, modular `spring-boot-starter-webmvc`, native builder `:25`, removed deprecated `MySQL8Dialect`. Build and tests pass. |
+| **P2** | Boot 4.1.2 runtime parity on Java 17 | **done** (passed) | `50d6a2ee84` | Note from `PROGRESS.md`: `gate run17 passed on 2026-11-01 after the runtime.py fix (operator-verified, no code change)`. |
+| **P3** | Java 25 (stage C2) | **done** (passed) | `fd94328258` | Promoted `java.version` to 25. Verified with full `run25` gate suite (V, G7, G1, G2, G3, G8, G4). |
+| **P4** | Review and fix | **done** (passed) | `8b880dac09` | Comprehensive review and audit against `SPEC.md`. Verified G1, G2, G3, G4, G7, G8 on Java 25. Zero code defects found. |
+| **P5** | Handoff report | **running** | — | Creation of this handoff document. No code changes made. |
+
+All preceding phases (P1, P2, P3, P4) passed cleanly.
 
 ---
 
 ## 2. Gate Results (`../gate-reports/*.txt`)
+
+From `../gate-reports/run25.runtime.txt` (Stage C2 — Java 25):
+```text
+G2 PASS: migrated jar booted (ERROR lines: baseline 1, migrated 1)
+G3 PASS: 10 requests match
+G8 PASS: schema identical (97 rows)
+INFO (report only): fresh-install schema of the migrated jar vs baseline: identical
+```
+
+From `../gate-reports/run17.runtime.txt` (Stage C1 — Java 17):
+```text
+G2 PASS: migrated jar booted (ERROR lines: baseline 1, migrated 1)
+G3 PASS: 10 requests match
+G8 PASS: schema identical (97 rows)
+INFO (report only): fresh-install schema of the migrated jar vs baseline: identical
+```
 
 From `../gate-reports/baseline.runtime.txt`:
 ```text
@@ -29,103 +49,133 @@ G3 PASS: 10 requests match
 G8 PASS: schema identical (97 rows)
 ```
 
-Direct quotes of the G3 and G8 lines:
-- **G3**: `G3 PASS: 10 requests match`
-- **G8**: `G8 PASS: schema identical (97 rows)`
+### Exact G3 and G8 Line Quotes:
+- **G3 quote**:
+  ```text
+  G3 PASS: 10 requests match
+  ```
+- **G8 quote**:
+  ```text
+  G8 PASS: schema identical (97 rows)
+  ```
 
-Additional Gate Results from Phase Logs:
-- **G1 (Build & Tests)**: PASS (`GATE PASS [build17]`, `GATE PASS [check17]` on Java 17; all Maven unit/integration tests pass cleanly).
-- **G4 (AOT Processing)**: PASS (`mvn -B -Pnative -DskipTests -DskipNativeBuild=true package` exits with code 0).
-- **G7 (Change Scope)**: PASS (`bash ~/apps-gates/web-gate.sh - scope` outputs `GATE PASS [scope]`).
-- **G2/G3/G8 in P2**: The automated gate check (`spring-gate.sh run17`) aborted due to Python `SyntaxError: unterminated f-string literal (detected at line 208)` in `/home/ubuntu/apps-gates/runtime.py`. Application boots with identical error log count (1 ERROR) and matching responses across all baseline endpoints.
+### Full Gate Suite Summary:
+- **Version Assertions (V)**: PASS. `spring-boot-starter-parent` is `4.1.2`, native image builder is `ghcr.io/graalvm/native-image-community:25`, `java.version` is `25`.
+- **G1 (Build & Tests)**: PASS. Maven `verify` passes on JDK 25 (`run25.mvn.log`, `check25.mvn.log`).
+- **G2 (Boot & Logging)**: PASS. Migrated jar booted against empty gate DB with 1 ERROR line matching baseline.
+- **G3 (Differential Smoke)**: PASS. All 10 baseline endpoints match exact HTTP status codes and JSON response key shapes.
+- **G4 (AOT Processing)**: PASS. `mvn -B -Pnative -DskipTests -DskipNativeBuild=true package` completed successfully (`run25.aot.log`).
+- **G7 (Scope Assertion)**: PASS. Changes strictly confined to allowed paths (`springapp/**` and `docs/nightrun/**`).
+- **G8 (Schema Drift)**: PASS. Exactly 97 schema rows match baseline schema with zero column, type, nullability, or constraint drift.
 
 ---
 
 ## 3. Files Changed and Why (`git diff --stat $(cat ../baseline/sha)`)
 
-Git diff statistics against baseline SHA `6d36337f859b09679063484c7003a804d78a9c86` (`git diff --stat $(cat ../baseline/sha)`):
+Git diff stat against baseline commit SHA `6d36337f859b09679063484c7003a804d78a9c86`:
 
 ```text
- docs/nightrun/spicerack-spring-left.md             |  33 +++++
- docs/nightrun/spicerack-spring-review.md           | 143 +++++++++++++++++++++
+ docs/nightrun/spicerack-spring-handoff.md          | 182 +++++++++++++++++++++
+ docs/nightrun/spicerack-spring-left.md             |  18 ++
+ docs/nightrun/spicerack-spring-review.md           | 155 ++++++++++++++++++
  springapp/Dockerfile                               |   2 +-
- springapp/pom.xml                                  |   5 +-
+ springapp/pom.xml                                  |   7 +-
  .../src/main/resources/application.properties      |   1 -
- 5 files changed, 179 insertions(+), 5 deletions(-)
+ 6 files changed, 359 insertions(+), 6 deletions(-)
 ```
 
-*(Note: `docs/nightrun/spicerack-spring-handoff.md` is added in this phase and committed by the driver upon phase completion).*
+### Explanation for Every File Changed:
 
-### Detailed Breakdown of Every Changed File:
 1. `springapp/pom.xml`:
-   - **Why**: Upgraded `spring-boot-starter-parent` from `3.5.16` to `4.1.2` per SPEC Section 1. Replaced monolithic `spring-boot-starter-web` with modular `spring-boot-starter-webmvc` per SPEC Section 3 Boot 4 migration rules.
+   - **Why**:
+     - Upgraded `spring-boot-starter-parent` from `3.5.16` to `4.1.2` per SPEC Section 1.
+     - Updated `<java.version>` from `17` to `25` per SPEC Section 1 & Section 4 (Stage C2).
+     - Replaced `spring-boot-starter-web` with modular `spring-boot-starter-webmvc` per SPEC Section 3.
+     - Maintained Boot-managed Lombok without explicit version pin per SPEC Section 1 & 3.
+
 2. `springapp/Dockerfile`:
-   - **Why**: Updated native builder base image from `ghcr.io/graalvm/native-image-community:17` to `ghcr.io/graalvm/native-image-community:25` per SPEC Section 1 ("Native builder image, C1: `ghcr.io/graalvm/native-image-community:25` (every Dockerfile.native, and SPICERACK's springapp/Dockerfile)").
+   - **Why**:
+     - Updated the GraalVM native image build image from `ghcr.io/graalvm/native-image-community:17` to `ghcr.io/graalvm/native-image-community:25` per SPEC Section 1 ("Native builder image, C1: `ghcr.io/graalvm/native-image-community:25` (every Dockerfile.native, and SPICERACK's springapp/Dockerfile)") and Section 3.
+
 3. `springapp/src/main/resources/application.properties`:
-   - **Why**: Removed `spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect`. Hibernate 7 (in Boot 4) deprecates `MySQL8Dialect` and automatically detects the MySQL dialect without explicit configuration.
+   - **Why**:
+     - Removed `spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect` per SPEC Section 3 ("Hibernate 7. Remove deprecated dialect pins such as MySQL8Dialect (Hibernate detects MySQL itself)").
+
 4. `docs/nightrun/spicerack-spring-left.md`:
-   - **Why**: Required nightrun document tracking remaining items, blockers, and deferred tasks from phases P2 and P4.
+   - **Why**:
+     - Required nightrun tracking log recording progress across phases P2, P3, and P4, documenting resolution of the gate harness syntax issue, and confirming 0 remaining tasks.
+
 5. `docs/nightrun/spicerack-spring-review.md`:
-   - **Why**: Required Phase P4 review report documenting SPEC verification, schema parity, endpoint compatibility, security checks, and audit findings.
+   - **Why**:
+     - Required review report produced during phase P4 documenting the thorough audit of code, configuration, database schema, HTTP endpoints, security constraints, and gate verifications.
+
 6. `docs/nightrun/spicerack-spring-handoff.md`:
-   - **Why**: Required Phase P5 owner handoff report detailing phase results, gate outputs, git diffs, dependencies, and deployment instructions.
+   - **Why**:
+     - Required handoff report produced in phase P5 providing the owner with complete factual documentation of the migration.
 
 ---
 
 ## 4. Dependencies Added or Removed
 
-- **Added**: None retained permanently.
-  - Temporary: `spring-boot-properties-migrator` was evaluated during P1 to verify property compatibility and removed before commit in compliance with SPEC Section 2 Hard Rule 6.
-- **Removed**:
+- **Added Dependencies**:
+  - None permanently added.
+  - Note: `org.springframework.boot:spring-boot-properties-migrator` was temporarily added during P1 to verify configuration property compatibility and removed before commit per SPEC Section 3.
+- **Removed Dependencies**:
   - `org.springframework.boot:spring-boot-starter-web` (replaced by modular starter `org.springframework.boot:spring-boot-starter-webmvc`).
 - **Managed Versions**:
-  - All dependency versions (Spring Boot 4.1.2, Spring Framework 7, Hibernate 7 / Spring Data JPA, Jackson 3, Spring Security 7, Lombok) are managed through `spring-boot-starter-parent` without version pins.
+  - All library versions (Spring Boot 4.1.2, Spring Framework 7, Spring Data JPA / Hibernate 7, Jackson 3, Lombok) are managed transitively through `spring-boot-starter-parent` 4.1.2 without manual overrides.
 
 ---
 
 ## 5. Items in `docs/nightrun/spicerack-spring-left.md`
 
-1. **Phase P2 — External Gate Harness Blocker**:
-   - `~/apps-gates/runtime.py` line 208 has an unterminated f-string literal:
-     ```python
-     208:        say(f"G2 FAIL: migrated jar exited after starting. Log tail:
-     209: {tail}")
-     ```
-   - Caused `spring-gate.sh run17` to fail with `SyntaxError: unterminated f-string literal (detected at line 208)`.
-   - Per SPEC Section 2 Hard Rule 1, gate harness scripts outside `repo/` cannot be modified by the migration agent.
-   - Fix required by harness maintainer:
-     ```python
-     say(f"G2 FAIL: migrated jar exited after starting. Log tail:\n{tail}")
-     ```
-   - Application itself is fully operational and passes G1, G2, G3, G8, and G4.
-
-2. **Phase P4 — Stage C2 (Java 25) Deferred**:
-   - Automated driver skipped phase P3 because P2 failed on the harness syntax error.
-   - P4 kept the build on Java 17 (Stage C1) to ensure a stable, fully passing baseline before advancing to Java 25.
-   - Stage C1 is production ready on Spring Boot 4.1.2. Advancing to Java 25 requires updating `<java.version>25</java.version>` in `springapp/pom.xml` and running `spring-gate.sh run25` once the harness is patched.
+Contents of `docs/nightrun/spicerack-spring-left.md`:
+- **Phase P2 (Boot 4.1.2 runtime parity on Java 17)**:
+  - Recorded external gate harness blocker in `/home/ubuntu/apps-gates/runtime.py` line 208 (`SyntaxError: unterminated f-string literal`).
+  - Recorded that the issue was resolved by the test harness maintainer and subsequent run of `spring-gate.sh run17` passed cleanly (operator-verified in `PROGRESS.md`).
+- **Phase P3 (Java 25 stage C2)**:
+  - Status: Completed successfully.
+  - Verification: `spring-gate.sh run25` passed cleanly (V, G7, G1, G2, G3, G8, G4).
+  - Items Left: None.
+- **Phase P4 (Review and fix)**:
+  - Status: Completed successfully.
+  - Verification: Comprehensive code, configuration, and behavioural audit against `SPEC.md` completed. `spring-gate.sh current` (`check25`) and `spring-gate.sh run25` both pass cleanly.
+  - Items Left: None.
+- **Overall Items Left Undone**: None.
 
 ---
 
 ## 6. What the Owner Must Still Do
 
+Per SPEC Section 8 ("Out of scope everywhere: Merging, pushing and deploying belong to the owner"), the owner must perform the following actions:
+
 1. **Push the branch**:
    ```bash
    git push origin chore/stack-spring
    ```
-2. **Run GitHub Actions Native Build**:
-   - Navigate to **GitHub Actions** -> **Build and Push** workflow.
-   - Choose branch `chore/stack-spring` and trigger the workflow with tag `graal`.
-   - This builds `springapp/Dockerfile` with `ghcr.io/graalvm/native-image-community:25`, executes native smoke tests, and pushes `roguekishore/spicerack:graal`.
+
+2. **Run the GitHub Actions Native Build**:
+   - Go to the repository's **GitHub Actions** tab.
+   - Select the **Build and Push** workflow (`.github/workflows/...`).
+   - Trigger the workflow on branch `chore/stack-spring` specifying tag `graal`.
+   - The workflow compiles `springapp/Dockerfile` with `ghcr.io/graalvm/native-image-community:25`, runs native smoke tests, and publishes `roguekishore/spicerack:graal`.
+
 3. **Flip `mise.toml` to `temurin-25`**:
-   - Update `mise.toml` to specify `java = "temurin-25"`.
+   - Update `mise.toml` to configure Java 25:
+     ```toml
+     [tools]
+     java = "temurin-25"
+     ```
+
 4. **Merge**:
-   - Open and merge the Pull Request for `chore/stack-spring` into `main`/default branch.
+   - Open a pull request for `chore/stack-spring` and merge into the default branch once GitHub Actions status checks pass.
+
 5. **Deploy**:
-   - On the deployment host:
+   - On the target deployment host, execute:
      ```bash
      sudo docker-compose pull spicerack && sudo docker-compose up -d spicerack
      ```
-   - Verify container status and logs:
+   - Verify deployment status:
      ```bash
      sudo docker inspect -f '{{.RepoDigests}}' roguekishore/spicerack:graal
      docker stats --no-stream
