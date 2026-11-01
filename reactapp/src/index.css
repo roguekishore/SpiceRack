@@ -79,6 +79,10 @@
 }
 
 @layer base {
+  /* Tailwind 4 space-y puts margin-bottom on the previous sibling; inline labels ignore it */
+  label {
+    display: inline-block;
+  }
   * {
     @apply border-border;
   }
@@ -331,54 +335,52 @@
    CONTAINER COMPONENTS
    ============================================ */
 
-@layer components {
-  .container {
-    width: 100%;
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: 0 var(--space-6);
-  }
+/* unlayered on purpose: these came after @tailwind utilities in the CRA build and won ties against them */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
 
-  .container-narrow {
-    max-width: var(--container-narrow);
-  }
+.container-narrow {
+  max-width: var(--container-narrow);
+}
 
-  .container-wide {
-    max-width: var(--container-wide);
-  }
+.container-wide {
+  max-width: var(--container-wide);
 }
 
 /* ============================================
    UTILITY CLASSES
    ============================================ */
 
-@layer utilities {
-  /* === TEXT UTILITIES === */
-  .text-center { text-align: center; }
-  .text-left { text-align: left; }
-  .text-right { text-align: right; }
+/* unlayered on purpose: these came after @tailwind utilities in the CRA build and won ties against them */
+/* === TEXT UTILITIES === */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
 
-  .uppercase {
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wider);
-  }
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
 
-  .truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  /* === VISUAL UTILITIES === */
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
+/* === VISUAL UTILITIES === */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
