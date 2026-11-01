@@ -31,3 +31,10 @@ Once the gate script typo on line 208 of `~/apps-gates/runtime.py` is corrected 
 - **Reason**: Stage C2 requires `spring-gate.sh run25` validation. Because the harness syntax error blocks execution of `runtime.py`, proceeding with Java 25 migration in P4 without runtime gate verification was deemed unsafe and out of scope for the review phase.
 - **Current State**: Stage C1 (Boot 4.1.2 on Java 17) is fully verified, passing all unit tests, G4 AOT processing, and G7 scope verification.
 - **Action Required**: Once `~/apps-gates/runtime.py` line 208 is corrected by the harness owner, run P2 (`spring-gate.sh run17`), followed by Stage C2 (bump `java.version` to 25 and Temurin images in Dockerfile, verified via `spring-gate.sh run25`).
+
+## P3: Java 25 (stage C2)
+
+- **Status**: Completed successfully.
+- **Verification**: `spring-gate.sh run25` passed cleanly (V, G7, G1, G2, G3, G8, G4).
+- **Items Left**: None.
+
