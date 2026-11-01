@@ -40,7 +40,7 @@ const GroceryUpload = () => {
     formData.append("file", image);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/groceries/add`, {
+      const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/groceries/add`, {
         method: "POST",
         body: formData,
       });

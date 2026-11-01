@@ -40,7 +40,7 @@ export default function Product() {
   }, [debouncedSearchTerm, currentPage, pageSize, sortBy, ascending, filterType, filterCategory]);
 
   const fetchGroceries = () => {
-    let url = `${process.env.REACT_APP_API_URL}/api/groceries/paginated?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&ascending=${ascending}`;
+    let url = `${import.meta.env.REACT_APP_API_URL}/api/groceries/paginated?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&ascending=${ascending}`;
     if (searchTerm) url += `&name=${encodeURIComponent(searchTerm.toLowerCase())}`;
     if (filterType !== "All") url += `&type=${encodeURIComponent(filterType.toLowerCase())}`;
     if (filterCategory !== "All") url += `&category=${encodeURIComponent(filterCategory.toLowerCase())}`;

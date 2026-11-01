@@ -40,7 +40,7 @@ const RecipeGenerator = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/recipes/generate`, groceryItems, {
+      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/recipes/generate`, groceryItems, {
         headers: { "Content-Type": "application/json" }
       });
       setRecipe(response.data);

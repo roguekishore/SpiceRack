@@ -34,7 +34,7 @@ export const UserProvider = ({ children }) => {
   const fetchOrders = useCallback(async (userId) => {
     if (!userId) return;
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders/user/${userId}`);
+      const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/orders/user/${userId}`);
       if (response.ok) {
         const data = await response.json();
         setOrders(data);
@@ -47,7 +47,7 @@ export const UserProvider = ({ children }) => {
   const fetchCart = useCallback(async (userId) => {
     if (!userId) return;
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/carts/user/${userId}`);
+      const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/carts/user/${userId}`);
       if (response.ok) {
         const cartData = await response.json();
         setCart((prevCart) =>
@@ -70,7 +70,7 @@ export const UserProvider = ({ children }) => {
   const fetchInventory = useCallback(async (userId) => {
     if (!userId) return;
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/inventories/users/${userId}`);
+      const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/inventories/users/${userId}`);
       if (response.ok) {
         const inventoryData = await response.json();
         setInventory(inventoryData);
@@ -144,7 +144,7 @@ export const UserProvider = ({ children }) => {
     
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/add/${groceryId}/optimized`, 
+        `${import.meta.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/add/${groceryId}/optimized`, 
         { method: "POST" }
       );
       
@@ -240,7 +240,7 @@ export const UserProvider = ({ children }) => {
     
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/remove/${groceryId}`,
+        `${import.meta.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/remove/${groceryId}`,
         { method: "DELETE" }
       );
       
@@ -294,7 +294,7 @@ export const UserProvider = ({ children }) => {
     
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/modify/${groceryId}/optimized?quantity=${roundedQty}`,
+        `${import.meta.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/modify/${groceryId}/optimized?quantity=${roundedQty}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -349,7 +349,7 @@ export const UserProvider = ({ children }) => {
   const handleProductFavourite = async (groceryId) => {
     if (!user?.cart) return;
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/${groceryId}/favorite`, {
+      const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/carts/${user.cart.id}/items/${groceryId}/favorite`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
       });
@@ -374,7 +374,7 @@ export const UserProvider = ({ children }) => {
     
     try {
       // Use optimized endpoint for better performance
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/carts/order/${user.cart.id}/optimized`, {
+      const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/carts/order/${user.cart.id}/optimized`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
@@ -440,7 +440,7 @@ export const UserProvider = ({ children }) => {
       
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/inventories/${user.inventory.id}/items/${groceryId}/optimized`,
+          `${import.meta.env.REACT_APP_API_URL}/api/inventories/${user.inventory.id}/items/${groceryId}/optimized`,
           { method: "DELETE" }
         );
         
@@ -475,7 +475,7 @@ export const UserProvider = ({ children }) => {
     
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/inventories/${user.inventory.id}/items/${groceryId}/optimized?quantity=${roundedQty}`,
+        `${import.meta.env.REACT_APP_API_URL}/api/inventories/${user.inventory.id}/items/${groceryId}/optimized?quantity=${roundedQty}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -535,7 +535,7 @@ export const UserProvider = ({ children }) => {
   const updateUser = async (userData) => {
     if (!user?.id) throw new Error("User ID is missing");
     try {
-      const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${user.id}`, userData, {
+      const response = await axios.put(`${import.meta.env.REACT_APP_API_URL}/api/users/${user.id}`, userData, {
         headers: {
           'Content-Type': 'application/json',
         },

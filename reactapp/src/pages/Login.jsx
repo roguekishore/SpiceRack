@@ -30,7 +30,7 @@ const Login = () => {
       password: signUpPassword,
     };
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users`, newUser, {
+      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/users`, newUser, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -50,7 +50,7 @@ const Login = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/auth/login`, {
         email: signInEmail,
         password: signInPassword
       });
